@@ -1,0 +1,7 @@
+[flake8]
+exclude = migrations, __pycache__, manage.py, settings.py
+max-line-length = 88
+ignore =
+    # Ignore line length in docstrings/comments
+    D203
+    # Ignore specific PEP8 rules (example: E501 for line length)

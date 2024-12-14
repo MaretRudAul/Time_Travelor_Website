@@ -12,3 +12,4 @@ def generate_code(request):
     length = 60
     secure_code = "".join(secrets.choice(charset) for _ in range(length))
     return JsonResponse({"secure_code": secure_code})
+
