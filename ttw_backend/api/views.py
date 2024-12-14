@@ -1,15 +1,12 @@
 # api/views.py
 from django.http import JsonResponse
 import secrets
+from .models import SecureToken
 
-def generate_code(request):
-    charset = (
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        "abcdefghijklmnopqrstuvwxyz"
-        "0123456789"
-        "!@#$%^&*()_+~`|}{[]:;?><,./-="
-    )
-    length = 60
-    secure_code = "".join(secrets.choice(charset) for _ in range(length))
-    return JsonResponse({"secure_code": secure_code})
+def get_latest_token(request):
+    try:
+        latest_token = SecureToken.objects.latest('created_at')
+        return JsonResponse({'secure_code': latest_token.token})
+    except SecureToken.DoesNotExist:
+        return JsonResponse({'secure_code': 'No token available yet'})
 

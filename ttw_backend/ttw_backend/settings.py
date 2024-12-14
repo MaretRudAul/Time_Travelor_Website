@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     'api',
     "corsheaders",
+    'django_q',
 ]
 
 MIDDLEWARE = [
@@ -140,3 +141,17 @@ else:
     CORS_ALLOWED_ORIGINS = [
         "http://localhost:4200",
     ]
+
+# Django-Q Configuration
+Q_CLUSTER = {
+    'name': 'DjangoQ',
+    'workers': 4,  # Number of workers for task execution
+    'timeout': 60,  # Max time allowed per task
+    'retry': 60,  # Retry failed tasks after 60 seconds
+    'queue_limit': 50,  # Max tasks in the queue
+    'bulk': 10,  # Bulk task processing
+    'orm': 'default',  # Use the default database for the ORM
+    'ack_failures': True,  # Acknowledge failures
+    'catch_up': False,  # Avoid running tasks missed during downtime
+    'scheduler': True,  # Enable scheduling
+}

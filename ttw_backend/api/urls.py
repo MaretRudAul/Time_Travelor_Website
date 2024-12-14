@@ -3,5 +3,5 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('generate-code/', views.generate_code, name='generate_code'),
+    path('get-latest-token/', views.get_latest_token, name='get_latest_token'),
 ]

@@ -16,8 +16,8 @@ export class SecureCodeService {
    * Fetches the secure token from the backend.
    */
   getSecureToken(): Observable<string> {
-    return this.http.get<{ secure_code: string }>(`${this.apiUrl}generate-code/`).pipe(
-      map((response) => response.secure_code) // Extract secure_code from response
-    );
+    return this.http
+      .get<{ secure_code: string }>(`${this.apiUrl}get-latest-token/`)
+      .pipe(map((response) => response.secure_code));
   }
 }
