@@ -36,9 +36,7 @@ describe('HomeComponent', () => {
     const headerElement = fixture.debugElement.query(
       By.css('header h1'),
     ).nativeElement;
-    expect(headerElement.textContent.trim()).toBe(
-      'Prove You Are a Time Traveler',
-    );
+    expect(headerElement.textContent.trim()).toBe('A Guide to Time Travel');
   });
 
   it('should have a login link in the header', () => {
