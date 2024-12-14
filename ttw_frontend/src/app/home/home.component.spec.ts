@@ -29,7 +29,7 @@ describe('HomeComponent', () => {
     const secureCodeElement = fixture.debugElement.query(
       By.css('p.text-gray-200'),
     ).nativeElement;
-    expect(secureCodeElement.textContent).toBe(component.secureCode);
+    expect(secureCodeElement.textContent.trim()).toBe(component.secureCode);
   });
 
   it('should have a header with the correct title', () => {
