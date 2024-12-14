@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   secureCode: string = '';
 
   constructor() {
@@ -18,7 +18,7 @@ export class HomeComponent {
       'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+~`|}{[]:;?><,./-=';
     const length = 60;
     this.secureCode = Array.from({ length }, () =>
-      charset.charAt(Math.floor(Math.random() * charset.length))
+      charset.charAt(Math.floor(Math.random() * charset.length)),
     ).join('');
   }
 
