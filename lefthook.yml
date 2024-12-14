@@ -1,0 +1,8 @@
+pre-commit:
+  commands:
+    lintf:
+      run: npm run lintf
+      working_directory: ttw_frontend
+    # test:
+    #   run: npm run test
+    #   working_directory: ttw_frontend
