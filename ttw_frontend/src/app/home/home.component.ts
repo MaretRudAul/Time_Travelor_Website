@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SecureCodeService } from '../services/token.service'; // Adjust path as necessary
+import { SecureCodeService } from '../services/token.service';
 
 /**
  * Represents the Home component.
@@ -12,23 +12,22 @@ import { SecureCodeService } from '../services/token.service'; // Adjust path as
 })
 export class HomeComponent implements OnInit {
   /**
-   * The secure code fetched from the backend.
+   * The secure code received from the WebSocket.
    */
   secureCode: string = '';
 
-  /**
-   * Initializes a new instance of the HomeComponent class.
-   * @param secureCodeService Service to fetch secure codes from the backend.
-   */
   constructor(private secureCodeService: SecureCodeService) {}
 
   /**
    * Lifecycle hook that is called after data-bound properties are initialized.
-   * Handles video muting and fetching the secure code.
    */
   ngOnInit(): void {
     this.muteVideo();
-    this.fetchSecureCode();
+
+    // Listen for secure code updates
+    this.secureCodeService.listenForUpdates((token: string) => {
+      this.secureCode = token; // Update secure code whenever a new one is received
+    });
   }
 
   /**
@@ -39,20 +38,5 @@ export class HomeComponent implements OnInit {
     if (video) {
       video.muted = true; // Ensure the video is muted
     }
-  }
-
-  /**
-   * Fetches the secure code from the backend using SecureCodeService.
-   */
-  private fetchSecureCode(): void {
-    this.secureCodeService.getSecureToken().subscribe({
-      next: (code) => {
-        this.secureCode = code; // Update secureCode with the response
-      },
-      error: (err) => {
-        console.error('Failed to fetch secure code:', err);
-        this.secureCode = 'Error fetching code'; // Fallback message
-      },
-    });
   }
 }

@@ -39,9 +39,10 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    'api',
     "corsheaders",
     'django_q',
+    "channels",
+    'api',
 ]
 
 MIDDLEWARE = [
@@ -144,14 +145,35 @@ else:
 
 # Django-Q Configuration
 Q_CLUSTER = {
-    'name': 'DjangoQ',
-    'workers': 4,  # Number of workers for task execution
-    'timeout': 60,  # Max time allowed per task
-    'retry': 60,  # Retry failed tasks after 60 seconds
+    'name': 'DjangoORM',
+    'workers': 4,  # Number of worker processes
+    'recycle': 500,  # Tasks after this many iterations will be recycled
+    'timeout': 60,  # Seconds a worker can be silent before being recycled
+    'save_limit': 250,  # Max tasks to save to the ORM
     'queue_limit': 50,  # Max tasks in the queue
     'bulk': 10,  # Bulk task processing
     'orm': 'default',  # Use the default database for the ORM
     'ack_failures': True,  # Acknowledge failures
     'catch_up': False,  # Avoid running tasks missed during downtime
     'scheduler': True,  # Enable scheduling
+    'redis': {
+        'host': '127.0.0.1',
+        'port': 6379,
+        'db': 0,
+        'password': None,  # Set if your Redis requires a password
+        'ssl': False,  # Set to True if using SSL
+    },
 }
+
+ASGI_APPLICATION = "ttw_backend.asgi.application"
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')

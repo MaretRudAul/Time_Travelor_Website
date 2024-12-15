@@ -14,9 +14,3 @@ pre-commit:
         echo "Running frontend linter..."
         npm run lintf
       working_directory: ttw_frontend
-    lint-and-fix:
-      run: |
-        echo "Running backend linters and formatters..."
-        lefthook run lint-backend
-        echo "Running frontend linters..."
-        lefthook run lint-frontend
