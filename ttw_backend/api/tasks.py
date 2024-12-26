@@ -1,7 +1,10 @@
-from channels.layers import get_channel_layer
-from asgiref.sync import async_to_sync
 import secrets
+
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
+
 from .models import SecureToken
+
 
 def generate_token():
     # Generate a new token and save it to the database

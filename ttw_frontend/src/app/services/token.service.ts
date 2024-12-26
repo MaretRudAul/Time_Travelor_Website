@@ -6,7 +6,8 @@ import { Injectable } from '@angular/core';
 export class SecureCodeService {
   private websocket: WebSocket | null = null;
   private reconnectInterval: number = 5000; // Reconnect every 5 seconds if disconnected
-  private readonly websocketUrl: string = 'ws://127.0.0.1:8000/ws/token-updates/';
+  private readonly websocketUrl: string =
+    'ws://127.0.0.1:8000/ws/token-updates/';
 
   constructor() {
     this.initWebSocket();
@@ -17,21 +18,24 @@ export class SecureCodeService {
    */
   private initWebSocket(): void {
     this.websocket = new WebSocket(this.websocketUrl);
-  
+
     this.websocket.onopen = () => {
       console.log('WebSocket connection established');
     };
-  
+
     this.websocket.onclose = (event) => {
-      console.warn('WebSocket closed. Attempting to reconnect...', event.reason);
+      console.warn(
+        'WebSocket closed. Attempting to reconnect...',
+        event.reason,
+      );
       setTimeout(() => this.initWebSocket(), this.reconnectInterval);
     };
-  
+
     this.websocket.onerror = (error) => {
       console.error('WebSocket error occurred:', error);
     };
   }
-  
+
   listenForUpdates(callback: (token: string) => void): void {
     if (this.websocket) {
       this.websocket.onmessage = (event) => {
@@ -45,5 +49,5 @@ export class SecureCodeService {
     } else {
       console.warn('WebSocket is not initialized yet.');
     }
-  }  
+  }
 }

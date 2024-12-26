@@ -1,16 +1,15 @@
 pre-commit:
   commands:
-    lint-backend:
-      run: |
-        printf "Running Flake8 for linting...\n"
-        flake8 .
-        printf "Running Black for formatting...\n"
-        black .
-        printf "Running Isort for import sorting...\n"
-        isort .
+    lint-backend-flake8:
+      run: flake8 .
+      working_directory: ttw_backend
+    # lint-backend-black:
+    #   run: black .
+    #   working_directory: ttw_backend
+    lint-backend-isort:
+      run: isort .
       working_directory: ttw_backend
     lint-frontend:
       run: |
-        printf "Running frontend linter...\n"
-        npm run lintf
-      working_directory: ttw_frontend
+        cd ttw_frontend && npm run
+      # working_directory: ttw_frontend

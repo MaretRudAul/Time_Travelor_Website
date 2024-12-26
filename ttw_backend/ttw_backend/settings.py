@@ -10,9 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
-from decouple import config
-
 from pathlib import Path
+
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -40,9 +40,9 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "corsheaders",
-    'django_q',
     "channels",
-    'api',
+    "api",
+    "django_q",
 ]
 
 MIDDLEWARE = [
@@ -131,9 +131,9 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CORS_ALLOW_ALL_ORIGINS = True
 
-DJANGO_ENV = config('DJANGO_ENV', default='development')
+DJANGO_ENV = config("DJANGO_ENV", default="development")
 
-if DJANGO_ENV == 'production':
+if DJANGO_ENV == "production":
     CORS_ALLOWED_ORIGINS = [
         "https://your-frontend-domain.com",
         "https://another-allowed-domain.com",
@@ -145,23 +145,23 @@ else:
 
 # Django-Q Configuration
 Q_CLUSTER = {
-    'name': 'DjangoORM',
-    'workers': 4,  # Number of worker processes
-    'recycle': 500,  # Tasks after this many iterations will be recycled
-    'timeout': 60,  # Seconds a worker can be silent before being recycled
-    'save_limit': 250,  # Max tasks to save to the ORM
-    'queue_limit': 50,  # Max tasks in the queue
-    'bulk': 10,  # Bulk task processing
-    'orm': 'default',  # Use the default database for the ORM
-    'ack_failures': True,  # Acknowledge failures
-    'catch_up': False,  # Avoid running tasks missed during downtime
-    'scheduler': True,  # Enable scheduling
-    'redis': {
-        'host': '127.0.0.1',
-        'port': 6379,
-        'db': 0,
-        'password': None,  # Set if your Redis requires a password
-        'ssl': False,  # Set to True if using SSL
+    "name": "DjangoORM",
+    "workers": 4,  # Number of worker processes
+    "recycle": 500,  # Tasks after this many iterations will be recycled
+    "timeout": 60,  # Seconds a worker can be silent before being recycled
+    "save_limit": 250,  # Max tasks to save to the ORM
+    "queue_limit": 50,  # Max tasks in the queue
+    "bulk": 10,  # Bulk task processing
+    "orm": "default",  # Use the default database for the ORM
+    "ack_failures": True,  # Acknowledge failures
+    "catch_up": False,  # Avoid running tasks missed during downtime
+    "scheduler": True,  # Enable scheduling
+    "redis": {
+        "host": "127.0.0.1",
+        "port": 6379,
+        "db": 0,
+        "password": None,  # Set if your Redis requires a password
+        "ssl": False,  # Set to True if using SSL
     },
 }
 
@@ -176,4 +176,4 @@ CHANNEL_LAYERS = {
     },
 }
 
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")

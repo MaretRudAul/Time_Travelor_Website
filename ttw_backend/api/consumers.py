@@ -1,6 +1,8 @@
-from channels.generic.websocket import AsyncWebsocketConsumer
 import json
+
 from channels.db import database_sync_to_async
+from channels.generic.websocket import AsyncWebsocketConsumer
+
 
 class TokenUpdateConsumer(AsyncWebsocketConsumer):
     async def connect(self):
@@ -27,7 +29,8 @@ class TokenUpdateConsumer(AsyncWebsocketConsumer):
     @database_sync_to_async
     def get_latest_token(self):
         from .models import SecureToken
+
         try:
-            return SecureToken.objects.latest('created_at').token
+            return SecureToken.objects.latest("created_at").token
         except SecureToken.DoesNotExist:
             return None
