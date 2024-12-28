@@ -25,7 +25,7 @@ The concept is simple yet robust:
 
 ### Current Features
 
-- **Secure Token Generation:** A new token is generated every minute using cryptographic randomness.
+- **Secure Token Generation:** A new token is generated every minute using cryptographic randomness, updated to the user using websockets.
 - **Simple and Intuitive Interface:** A clean design allows easy access to the tokens and website functionality.
 - **Open Source:** The project is available for everyone to explore, contribute to, and improve.
 
@@ -33,6 +33,7 @@ The concept is simple yet robust:
 
 - **User Accounts:** Log in to generate personalized tokens tied to your account.
 - **Enhanced Security:** Tokens linked to accounts will further strengthen the validity of proof.
+- **Messages:** Messages can be used to create unique time travel tokens that can be verified in the past. 
 - **Mobile-Friendly Design:** Optimizations to ensure a seamless experience on all devices.
 
 ## How to Use
@@ -45,14 +46,19 @@ The concept is simple yet robust:
 2. **Install dependencies:**
 
    ```bash
-   cd ttw_frontend
-   npm install
+   cd ttw_frontend && npm install
+   cd .. && pip install -r requirements.txt
    ```
 
 3. **Run the development server:**
 
    ```bash
-   npm start
+   # starts frontend
+   cd ttw_frontend && npm start
+   # starts backend and websocket
+   cd ttw_backend && uvicorn ttw_backend.asgi:application --host 127.0.0.1 --port 8000 --reload
+   # starts django-q token generation service
+   cd ttw_backend && python manage.py qcluster
    ```
 
 4. **Visit the website:**
