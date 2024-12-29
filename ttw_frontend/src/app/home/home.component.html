@@ -6,14 +6,31 @@
   </video>
 
   <!-- Header -->
-  <header class="absolute top-0 w-full p-4 bg-black/60 flex items-center justify-between">
+  <header
+    class="absolute top-0 left-0 right-0 p-4 bg-black/60 flex items-center justify-between"
+  >
     <h1 class="text-white text-lg font-semibold">A Guide to Time Travel</h1>
-    <a
-      routerLink="/login"
-      class="text-white text-lg bg-white/20 hover:bg-white/40 px-4 py-2 rounded transition"
-    >
-      Login
-    </a>
+    <ng-container *ngIf="username; else showLogin">
+      <div class="flex items-center gap-4">
+        <span class="text-white text-lg font-medium">
+          {{ username }}
+        </span>
+        <button
+          (click)="logout()"
+          class="text-white text-lg bg-white/20 hover:bg-white/40 px-4 py-2 rounded transition cursor-pointer"
+        >
+          Logout
+        </button>
+      </div>
+    </ng-container>
+    <ng-template #showLogin>
+      <a
+        routerLink="/login"
+        class="text-white text-lg bg-white/20 hover:bg-white/40 px-4 py-2 rounded transition cursor-pointer"
+      >
+        Login
+      </a>
+    </ng-template>
   </header>
 
   <!-- Center Box -->
@@ -25,6 +42,19 @@
       <p class="text-lg font-mono text-gray-200 break-words">
         {{ secureCode }}
       </p>
+
+      <button
+        (click)="copySecureCode()"
+        class="mt-4 bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded cursor-pointer transition"
+      >
+        Copy Token
+      </button>
+
+      <!-- Display User Info if Logged In -->
+      <div *ngIf="user$ | async as user" class="mt-6">
+        <h2 class="text-xl text-white">Logged in as: {{ user.displayName }}</h2>
+        <img [src]="user.photoURL" alt="User Avatar" class="h-16 w-16 rounded-full mt-2">
+      </div>
     </div>
   </main>
 
@@ -36,6 +66,7 @@
       class="flex items-center gap-2 text-white"
     >
       <img src="assets/github-icon.png" alt="GitHub Icon" class="h-6 w-6" />
+      GitHub Repository
     </a>
     <!-- <p class="text-gray-400">Filler text for the footer</p> -->
   </footer>

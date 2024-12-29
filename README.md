@@ -63,6 +63,8 @@ The concept is simple yet robust:
 
    The token is displayed in the center of the page and updates every minute.
 
+# need to add redis instructions
+
 ## License
 
 This project is licensed under the [Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)](LICENSE) license. You are free to:

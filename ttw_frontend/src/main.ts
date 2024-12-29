@@ -1,16 +1,27 @@
+import { enableProdMode } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { provideHttpClient } from '@angular/common/http';
-import { AppComponent } from './app/app.component';
 import { provideRouter } from '@angular/router';
-import { HomeComponent } from './app/home/home.component';
-import { LoginComponent } from './app/login/login.component';
+import { provideHttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
+
+import { AppComponent } from './app/app.component';
+import { routes } from './app/app.routes';
+import { AuthInterceptor } from './app/services/auth.interceptor'; // Import AuthInterceptor
+
+import { environment } from './environments/environment';
+
+if (environment.production) {
+  enableProdMode();
+}
 
 bootstrapApplication(AppComponent, {
   providers: [
-    provideHttpClient(), // Use this instead of HttpClientModule
-    provideRouter([
-      { path: '', component: HomeComponent }, // Home page
-      { path: 'login', component: LoginComponent }, // Login page
-    ]),
+    provideRouter(routes),
+    provideHttpClient(),
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
+    // Add other global providers here if needed
   ],
 }).catch((err) => console.error(err));

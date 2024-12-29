@@ -1,59 +1,87 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '../services/auth.service';
+import { FirebaseService } from '../services/firebase.service'; // Added FirebaseService import
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css'],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  standalone: true,
 })
-export class SignupComponent {
-  signupForm: FormGroup;
-  passwordVisible: boolean = false;
+export class SignupComponent implements OnInit {
+  signupForm!: FormGroup;
+  errorMessage: string = '';
+  isSubmitting: boolean = false;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private authService: AuthService,
+    private firebaseService: FirebaseService, // Injected FirebaseService
+  ) {}
+
+  ngOnInit(): void {
     this.signupForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(3)]],
-      password: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(12),
-          Validators.maxLength(32),
-          Validators.pattern(
-            '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&#])[A-Za-z\\d@$!%*?&#]{12,32}$'
-          ),
-        ],
-      ],
-      confirmPassword: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
 
-  get username() {
-    return this.signupForm.get('username');
-  }
-
-  get password() {
-    return this.signupForm.get('password');
-  }
-
-  get confirmPassword() {
-    return this.signupForm.get('confirmPassword');
-  }
-
-  onSubmit() {
+  onSubmit(): void {
     if (this.signupForm.valid) {
+      this.isSubmitting = true;
       const { username, password } = this.signupForm.value;
-      console.log('Signup successful!', { username, password });
-      // Add API call here to submit signup data
-    } else {
-      console.error('Signup form is invalid!');
+      this.authService.signup(username, password).subscribe({
+        next: (response) => {
+          // Automatically log in the user after successful signup
+          this.authService.login(username, password).subscribe({
+            next: (loginResponse) => {
+              localStorage.setItem('token', loginResponse.token);
+              this.isSubmitting = false;
+              this.router.navigate(['/']);
+            },
+            error: (loginError) => {
+              this.errorMessage =
+                loginError.error.detail || 'Login failed after signup.';
+              this.isSubmitting = false;
+              console.error('Login error after signup:', loginError);
+            },
+          });
+        },
+        error: (error) => {
+          if (error.error) {
+            this.errorMessage = error.error.username
+              ? error.error.username[0]
+              : error.error.detail || 'Signup failed. Please try again.';
+          } else {
+            this.errorMessage =
+              'An unexpected error occurred. Please try again.';
+          }
+          this.isSubmitting = false;
+          console.error('Signup error:', error);
+        },
+      });
     }
   }
 
-  /**
-   * Utility method to toggle password visibility.
-   */
-  togglePasswordVisibility(): void {
-    this.passwordVisible = !this.passwordVisible;
+  loginWithGoogle(): void {
+    this.firebaseService
+      .loginWithGoogle()
+      .then(() => {
+        this.router.navigate(['/']);
+      })
+      .catch((error: Error) => {
+        this.errorMessage = error.message;
+        console.error('Google login error:', error);
+      });
   }
 }
