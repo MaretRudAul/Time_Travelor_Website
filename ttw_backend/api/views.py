@@ -44,3 +44,21 @@ class UsernameAPIView(generics.RetrieveAPIView):
 
     def get(self, request, *args, **kwargs):
         return Response({"username": request.user.username}, status=status.HTTP_200_OK)
+
+
+def get_current_token(user):
+    from .models import SecureToken
+
+    try:
+        return SecureToken.objects.latest("created_at").token
+    except SecureToken.DoesNotExist:
+        return None
+
+# @method_decorator(csrf_exempt, name='dispatch')
+class GetTokenView(generics.RetrieveAPIView):
+    def get(self, request):
+        if not request.user.is_authenticated:
+            return Response({'error': 'Unauthorized'}, status=401)
+        
+        token = get_current_token(request.user)
+        return Response({'token': token})

@@ -27,6 +27,7 @@ class TokenUpdateConsumer(AsyncWebsocketConsumer):
         await self.send(json.dumps({"secure_code": token}))
 
     @database_sync_to_async
+    # check if there is a way to share this function with views.py
     def get_latest_token(self):
         from .models import SecureToken
 

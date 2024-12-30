@@ -18,7 +18,7 @@ Including another URLconf
 # ttw_backend/urls.py
 # from django.contrib import admin
 from django.urls import include, path
-from api.views import SignupAPIView, LoginAPIView, UsernameAPIView
+from api.views import SignupAPIView, LoginAPIView, UsernameAPIView, GetTokenView
 
 urlpatterns = [
     # path("admin/", admin.site.urls),
@@ -27,4 +27,5 @@ urlpatterns = [
     path('api/auth/signup/', SignupAPIView.as_view(), name='signup'),
     path('api/auth/login/', LoginAPIView.as_view(), name='login'),
     path('api/auth/username/', UsernameAPIView.as_view(), name='username'),
+    path('api/get-token/', GetTokenView.as_view(), name='get-token'),
 ]

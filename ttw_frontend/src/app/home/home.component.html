@@ -1,40 +1,7 @@
-<div class="relative w-full h-screen">
-  <!-- Background Video -->
-  <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover -z-10">
-    <source src="assets/blackhole.mp4" type="video/mp4" />
-    Your browser does not support the video tag.
-  </video>
-
-  <!-- Header -->
-  <header
-    class="absolute top-0 left-0 right-0 p-4 bg-black/60 flex items-center justify-between"
-  >
-    <h1 class="text-white text-lg font-semibold">A Guide to Time Travel</h1>
-    <ng-container *ngIf="username; else showLogin">
-      <div class="flex items-center gap-4">
-        <span class="text-white text-lg font-medium">
-          {{ username }}
-        </span>
-        <button
-          (click)="logout()"
-          class="text-white text-lg bg-white/20 hover:bg-white/40 px-4 py-2 rounded transition cursor-pointer"
-        >
-          Logout
-        </button>
-      </div>
-    </ng-container>
-    <ng-template #showLogin>
-      <a
-        routerLink="/login"
-        class="text-white text-lg bg-white/20 hover:bg-white/40 px-4 py-2 rounded transition cursor-pointer"
-      >
-        Login
-      </a>
-    </ng-template>
-  </header>
-
+<!-- src/app/home/home.component.html -->
+<div class="relative w-full">
   <!-- Center Box -->
-  <main class="flex items-center justify-center h-full text-center">
+  <main class="text-center">
     <div class="bg-black/70 p-8 rounded-lg shadow-lg">
       <h1 class="text-2xl font-semibold text-white mb-4">
         Your secure time traveler code is
@@ -57,17 +24,4 @@
       </div>
     </div>
   </main>
-
-  <!-- Footer -->
-  <footer class="absolute bottom-0 w-full p-4 bg-black/60 flex items-center justify-between">
-    <a
-      href="https://github.com/MaretRudAul/Time_Travelor_Website"
-      target="_blank"
-      class="flex items-center gap-2 text-white"
-    >
-      <img src="assets/github-icon.png" alt="GitHub Icon" class="h-6 w-6" />
-      GitHub Repository
-    </a>
-    <!-- <p class="text-gray-400">Filler text for the footer</p> -->
-  </footer>
 </div>

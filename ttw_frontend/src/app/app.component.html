@@ -1,2 +1,27 @@
-<router-outlet></router-outlet>
-
+<!-- app.component.html -->
+<div class="flex flex-col min-h-screen relative">
+    <!-- Background Video -->
+    <video
+      #backgroundVideo
+      autoplay
+      muted
+      loop
+      playsinline
+      class="absolute inset-0 w-full h-full object-cover -z-10"
+    >
+      <source src="assets/blackhole.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+    
+    <!-- Header -->
+    <app-header></app-header>
+    
+    <!-- Main Content -->
+    <main class="flex-grow p-4 flex items-center justify-center">
+      <router-outlet></router-outlet>
+    </main>
+    
+    <!-- Footer -->
+    <app-footer class="mt-auto"></app-footer>
+  </div>
+  

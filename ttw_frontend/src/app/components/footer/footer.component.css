@@ -1,0 +1,5 @@
+/* Ensure no horizontal margins or widths exceed 100% */
+footer {
+    width: 100%;
+    /* Remove or adjust any horizontal padding/margins if necessary */
+}
